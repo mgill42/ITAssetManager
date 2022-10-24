@@ -14,7 +14,7 @@ struct ContentView: View {
             AssetsView(showArchived: false)
                 .tabItem {
                     Image(systemName: "desktopcomputer")
-                    Text("Assets")
+                    Text("Test")
                 }
             
             StaffView()
