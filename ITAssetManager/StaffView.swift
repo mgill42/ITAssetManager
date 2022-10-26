@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct StaffView: View {
+    static let tag: String? = "Staff"
+    
     @EnvironmentObject var dataController: DataController
     
     var body: some View {

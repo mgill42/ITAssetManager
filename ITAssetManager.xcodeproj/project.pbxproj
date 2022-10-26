@@ -16,6 +16,8 @@
 		6E6BD6952906B3D3006C5BD3 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6BD6942906B3D3006C5BD3 /* DataController.swift */; };
 		6E6BD6992906F519006C5BD3 /* AssetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6BD6982906F519006C5BD3 /* AssetsView.swift */; };
 		6E6BD69B2906F58C006C5BD3 /* StaffView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6BD69A2906F58C006C5BD3 /* StaffView.swift */; };
+		6E6BD69F290849E4006C5BD3 /* Device-CoreDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6BD69E290849E4006C5BD3 /* Device-CoreDataHelpers.swift */; };
+		6E6BD6A129084D19006C5BD3 /* Staff-CoreDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6BD6A029084D19006C5BD3 /* Staff-CoreDataHelpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +31,8 @@
 		6E6BD6942906B3D3006C5BD3 /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		6E6BD6982906F519006C5BD3 /* AssetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsView.swift; sourceTree = "<group>"; };
 		6E6BD69A2906F58C006C5BD3 /* StaffView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffView.swift; sourceTree = "<group>"; };
+		6E6BD69E290849E4006C5BD3 /* Device-CoreDataHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Device-CoreDataHelpers.swift"; sourceTree = "<group>"; };
+		6E6BD6A029084D19006C5BD3 /* Staff-CoreDataHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Staff-CoreDataHelpers.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +70,8 @@
 				6E6BD6982906F519006C5BD3 /* AssetsView.swift */,
 				6E6BD69A2906F58C006C5BD3 /* StaffView.swift */,
 				6E6BD6852906B078006C5BD3 /* Assets.xcassets */,
+				6E6BD69E290849E4006C5BD3 /* Device-CoreDataHelpers.swift */,
+				6E6BD6A029084D19006C5BD3 /* Staff-CoreDataHelpers.swift */,
 				6E6BD6912906B33E006C5BD3 /* Model.xcdatamodeld */,
 				6E6BD6942906B3D3006C5BD3 /* DataController.swift */,
 				6E6BD68F2906B1BA006C5BD3 /* itstock.json */,
@@ -155,8 +161,10 @@
 			files = (
 				6E6BD6842906B077006C5BD3 /* ContentView.swift in Sources */,
 				6E6BD6992906F519006C5BD3 /* AssetsView.swift in Sources */,
+				6E6BD69F290849E4006C5BD3 /* Device-CoreDataHelpers.swift in Sources */,
 				6E6BD6952906B3D3006C5BD3 /* DataController.swift in Sources */,
 				6E6BD69B2906F58C006C5BD3 /* StaffView.swift in Sources */,
+				6E6BD6A129084D19006C5BD3 /* Staff-CoreDataHelpers.swift in Sources */,
 				6E6BD6822906B077006C5BD3 /* ITAssetManagerApp.swift in Sources */,
 				6E6BD6932906B33E006C5BD3 /* Model.xcdatamodeld in Sources */,
 			);

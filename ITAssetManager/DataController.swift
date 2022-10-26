@@ -62,6 +62,7 @@ class DataController: ObservableObject {
                 device.type = "Type \(j)"
                 device.warrantyStart = Date()
                 device.warrantyEnd = Date()
+                device.staff = staff
             }
         }
             

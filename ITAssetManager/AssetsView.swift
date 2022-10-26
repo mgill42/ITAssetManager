@@ -8,7 +8,12 @@
 import SwiftUI
 
 struct AssetsView: View {
+    static let archivedTag: String? = "Archived"
+    static let assetsTag: String? = "Assets"
+    
     let devices: FetchRequest<Device>
+    
+    
     
     let showArchived: Bool
     
@@ -24,7 +29,7 @@ struct AssetsView: View {
         NavigationStack {
             List {
                 ForEach(devices.wrappedValue) { device in
-                    Text(device.assetTag ?? "")
+                    Text(device.deviceAssetTag)
                 }
             }
             .navigationTitle(showArchived ? "Archived Devices" : "Devices")

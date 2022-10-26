@@ -8,22 +8,27 @@
 import SwiftUI
 
 struct ContentView: View {
+    // remember opened tab when closed
+    @SceneStorage("selectedView") var selectedView: String?
+    
     var body: some View {
-        TabView {
-            
+        TabView(selection: $selectedView) {
             AssetsView(showArchived: false)
+                .tag(AssetsView.assetsTag)
                 .tabItem {
                     Image(systemName: "desktopcomputer")
-                    Text("Test")
+                    Text("Assets")
                 }
             
             StaffView()
+                .tag(StaffView.tag)
                 .tabItem {
                     Image(systemName: "person.fill")
                     Text("Users")
                 }
             
             AssetsView(showArchived: true)
+                .tag(AssetsView.archivedTag)
                 .tabItem {
                     Image(systemName: "archivebox.fill")
                     Text("Archived")
