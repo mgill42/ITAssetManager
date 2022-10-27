@@ -5,9 +5,13 @@
 //  Created by Mahaveer Gill on 25/10/2022.
 //
 
-import Foundation
+import SwiftUI
 
 extension Device {
+    
+    var deviceStaff: Staff {
+        staff ?? Staff()
+    }
   
     var deviceAssetTag: String {
         assetTag ?? ""
@@ -54,17 +58,17 @@ extension Device {
         let viewContext = controller.container.viewContext
         
         let device = Device(context: viewContext)
-        device.archived = false
+        device.archived = true
         device.assetTag = "Example Asset Tag"
         device.mac = "Example Mac"
         device.manufacturer = "Example Manufacturer"
         device.model = "Example Model"
         device.notes = "Example Notes"
-        device.purchaseDate = Date()
+        device.purchaseDate = Date.now
         device.serialNumber = "Example Serial Number"
         device.type = "Example Type"
-        device.warrantyStart = Date()
-        device.warrantyEnd = Date()
+        device.warrantyStart = Date.now
+        device.warrantyEnd = Date.now
         
         return device
         

@@ -14,11 +14,10 @@ class DataController: ObservableObject {
     let container: NSPersistentCloudKitContainer
     
     init(inMemory: Bool = false) {
-        
         container = NSPersistentCloudKitContainer(name: "Model")
         
         if inMemory {
-            container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")
+            container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")    //store data in RAM. Used for previews.
         }
         
         container.loadPersistentStores { storeDescription, error in
@@ -48,20 +47,21 @@ class DataController: ObservableObject {
             staff.id = UUID()
             staff.firstName = "First Name \(i)"
             staff.lastName = "Last Name \(i)"
-            staff.department = "Department \(i)"
+            staff.department = Department.departments.randomElement()
             
             for j in 1...10 {
                 let device = Device(context: viewContext)
                 device.archived = Bool.random()
                 device.assetTag = "UG\(Int.random(in: 10000...99999))"
                 device.mac = "MAC \(j)"
+                device.manufacturer = "Manufacturer \(j)"
                 device.model = "Model \(j)"
                 device.notes = "Notes \(j)"
-                device.purchaseDate = Date()
-                device.serialNumber = "Serial Numbeer \(j)"
-                device.type = "Type \(j)"
-                device.warrantyStart = Date()
-                device.warrantyEnd = Date()
+                device.purchaseDate = Date.now
+                device.serialNumber = "Serial Number \(j)"
+                device.type = Department.departments.randomElement()
+                device.warrantyStart = Date.now
+                device.warrantyEnd = Date.now
                 device.staff = staff
             }
         }

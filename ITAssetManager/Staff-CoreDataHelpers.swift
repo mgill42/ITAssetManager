@@ -5,7 +5,7 @@
 //  Created by Mahaveer Gill on 25/10/2022.
 //
 
-import Foundation
+import SwiftUI
 
 extension Staff {
     var staffFirstName: String {
@@ -25,7 +25,8 @@ extension Staff {
         return deviceArray
     }
     
-    var example: Staff {
+    
+    static var example: Staff {
         let controller = DataController(inMemory: true)
         let viewContext = controller.container.viewContext
         

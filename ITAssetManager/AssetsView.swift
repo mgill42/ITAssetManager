@@ -12,9 +12,6 @@ struct AssetsView: View {
     static let assetsTag: String? = "Assets"
     
     let devices: FetchRequest<Device>
-    
-    
-    
     let showArchived: Bool
     
     init(showArchived: Bool) {
@@ -29,10 +26,12 @@ struct AssetsView: View {
         NavigationStack {
             List {
                 ForEach(devices.wrappedValue) { device in
-                    Text(device.deviceAssetTag)
+                    NavigationLink(destination: AssetDetailView(device: device)) {
+                        Text(device.deviceAssetTag)
+                    }
                 }
             }
-            .navigationTitle(showArchived ? "Archived Devices" : "Devices")
+            .navigationTitle(showArchived ? "Archived Assets" : "Assets")
         }
     }
 }
