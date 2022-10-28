@@ -10,7 +10,7 @@ import SwiftUI
 extension Device {
     
     var deviceStaff: Staff {
-        staff ?? Staff()
+        staff ?? .example
     }
   
     var deviceAssetTag: String {
@@ -52,6 +52,7 @@ extension Device {
     var deviceWarrantyEnd: Date {
         warrantyEnd ?? Date()
     }
+    
     
     static var example: Device {
         let controller = DataController(inMemory: true)

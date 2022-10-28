@@ -3,6 +3,7 @@
     <entity name="Device" representedClassName="Device" syncable="YES" codeGenerationType="class">
         <attribute name="archived" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="assetTag" optional="YES" attributeType="String"/>
+        <attribute name="hasWarranty" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="mac" optional="YES" attributeType="String"/>
         <attribute name="manufacturer" optional="YES" attributeType="String"/>
         <attribute name="model" optional="YES" attributeType="String"/>

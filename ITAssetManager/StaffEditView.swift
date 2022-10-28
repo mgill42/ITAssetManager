@@ -38,14 +38,6 @@ struct StaffEditView: View {
                     }
                 }
             }
-            
-            Section("Devices") {
-                ForEach(devices) { device in
-                    NavigationLink(destination: AssetEditView(device: device)) {
-                        Text(device.deviceAssetTag)
-                    }
-                }
-            }
         }
         .navigationTitle("Edit Staff")
         .onDisappear(perform: dataController.save)

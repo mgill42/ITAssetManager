@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct AssetsView: View {
+    @State private var searchText = ""
+    
+    
     static let archivedTag: String? = "Archived"
     static let assetsTag: String? = "Assets"
     
@@ -23,15 +26,24 @@ struct AssetsView: View {
     }
     
     var body: some View {
-        NavigationStack {
+        NavigationStack() {
             List {
-                ForEach(devices.wrappedValue) { device in
+                ForEach(searchResults) { device in
                     NavigationLink(destination: AssetDetailView(device: device)) {
                         Text(device.deviceAssetTag)
                     }
                 }
             }
+            .searchable(text: $searchText).textInputAutocapitalization(.never)
             .navigationTitle(showArchived ? "Archived Assets" : "Assets")
+        }
+    }
+    
+    var searchResults: [Device] {
+        if searchText.isEmpty {
+            return Array(devices.wrappedValue)
+        } else {
+            return Array(devices.wrappedValue).filter {$0.deviceAssetTag.localizedCaseInsensitiveContains(searchText)}
         }
     }
 }

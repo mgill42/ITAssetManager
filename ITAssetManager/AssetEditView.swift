@@ -12,6 +12,8 @@ struct AssetEditView: View {
     let allStaff: FetchRequest<Staff>
     @EnvironmentObject var dataController: DataController
     
+    @State private var showDeleteAlert = false
+    
     @State private var staff: Staff?
     @State private var archived: Bool
     @State private var assetTag: String
@@ -22,6 +24,7 @@ struct AssetEditView: View {
     @State private var type: String
     @State private var purchaseDate: Date
     @State private var serialNumber: String
+    @State private var hasWarranty: Bool
     @State private var warrantyStart: Date
     @State private var warrantyEnd: Date
     
@@ -38,6 +41,7 @@ struct AssetEditView: View {
         _notes = State(wrappedValue: device.deviceNotes)
         _purchaseDate = State(wrappedValue: device.devicePurchaseDate)
         _serialNumber = State(wrappedValue: device.deviceSerialNumber)
+        _hasWarranty = State(wrappedValue: device.hasWarranty)
         _warrantyStart = State(wrappedValue: device.deviceWarrantyStart)
         _warrantyEnd = State(wrappedValue: device.deviceWarrantyEnd)
         
@@ -52,7 +56,7 @@ struct AssetEditView: View {
             Section("Device Details") {
                 Picker("Staff", selection: $staff) {
                     ForEach(allStaff.wrappedValue) { staff in
-                        Text("\(staff.staffFirstName)").tag(staff as Staff?)
+                        Text("\(staff.staffFirstName) \(staff.staffLastName)").tag(staff as Staff?)
                     }
                 }
                 
@@ -62,33 +66,36 @@ struct AssetEditView: View {
                 TextField("Model", text: $model)
                 TextField("Serial Number", text: $serialNumber)
                 DatePicker("Purchase Date", selection: $purchaseDate, displayedComponents: .date)
-                TextField("Notes", text: $notes)
-                
-            }
-            
-            Section {
                 Picker("Type", selection: $type) {
                     ForEach(DeviceType.types, id: \.self) { type in
                         Text(type)
                     }
                 }
+                
             }
             
-            Section {
-                Toggle("Archive", isOn: $archived)
+            Section("Notes") {
+                TextField("Write a note", text: $notes, axis: .vertical)
             }
             
-            Section("Warranty Details") {
-                DatePicker("Warranty Start", selection: $warrantyStart, displayedComponents: .date)
-                DatePicker("Warranty End", selection: $warrantyEnd, displayedComponents: .date)
+            Section("Warranty") {
+    
+                    Toggle("Add Warranty", isOn: $hasWarranty)
+                
+                if hasWarranty {
+                    DatePicker("Warranty Start", selection: $warrantyStart, displayedComponents: .date)
+                    DatePicker("Warranty End", selection: $warrantyEnd, displayedComponents: .date)
+                }
             }
         }
+        .animation(.default, value: hasWarranty)
         .navigationTitle("Edit Asset")
         .onDisappear(perform: dataController.save)
         .onChange(of: staff) { _ in update()}
         .onChange(of: assetTag) { _ in update()}
         .onChange(of: mac) { _ in update()}
         .onChange(of: manufacturer) { _ in update()}
+        .onChange(of: archived) { _ in update()}
         .onChange(of: model) { _ in update()}
         .onChange(of: serialNumber) { _ in update()}
         .onChange(of: type) { _ in update()}
@@ -96,6 +103,28 @@ struct AssetEditView: View {
         .onChange(of: notes) { _ in update()}
         .onChange(of: warrantyStart) { _ in update()}
         .onChange(of: warrantyEnd) { _ in update()}
+        .alert("Remove Asset", isPresented: $showDeleteAlert) {
+            if archived == false {
+                Button("Archive") {
+                    archived = true
+                    NavigationUtil.popToRootView()
+                }
+            }
+            
+            Button("Delete", role: .destructive) {
+                dataController.delete(device)
+                NavigationUtil.popToRootView()
+            }
+        }
+        .toolbar {
+            ToolbarItem {
+                Button {
+                    showDeleteAlert = true
+                } label: {
+                    Image(systemName: "trash")
+                }
+            }
+        }
     }
     
     func update() {

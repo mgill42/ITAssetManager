@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct AssetDetailView: View {
-    
     let device: Device
     let dateFormatter = DateFormatter()
     
@@ -16,7 +15,13 @@ struct AssetDetailView: View {
     var body: some View {
     
         List {
-            Section {
+            Section("Details") {
+                HStack {
+                    Text("Owner")
+                    Spacer()
+                    Text("\(device.deviceStaff.staffFirstName) \(device.deviceStaff.staffLastName)")
+                        .foregroundColor(.secondary)
+                }
                 HStack {
                     Text("Asset Tag")
                     Spacer()
@@ -59,32 +64,33 @@ struct AssetDetailView: View {
                     Text(device.devicePurchaseDate.formatted(date: .numeric, time: .omitted))
                         .foregroundColor(.secondary)
                 }
-   
-                VStack(alignment: .leading) {
-                    Text("Notes")
-                        .padding(.bottom, 5)
+            }
+            
+            if device.deviceNotes.isEmpty == false {
+                Section("Notes") {
                     Text(device.deviceNotes)
                         .foregroundColor(.secondary)
                 }
-    
             }
-            
-            Section {
-                HStack {
-                    Text("Warranty Start")
-                    Spacer()
-                    Text(device.deviceWarrantyStart.formatted(date: .numeric, time: .omitted))
-                        .foregroundColor(.secondary)
-                }
-                
-                HStack {
-                    Text("Warranty Start")
-                    Spacer()
-                    Text(device.deviceWarrantyEnd.formatted(date: .numeric, time: .omitted))
-                        .foregroundColor(.secondary)
+    
+            if device.hasWarranty {
+                Section("Warranty Details") {
+                    HStack {
+                        Text("Warranty Start")
+                        Spacer()
+                        Text(device.deviceWarrantyStart.formatted(date: .numeric, time: .omitted))
+                            .foregroundColor(.secondary)
+                    }
+                    HStack {
+                        Text("Warranty Start")
+                        Spacer()
+                        Text(device.deviceWarrantyEnd.formatted(date: .numeric, time: .omitted))
+                            .foregroundColor(.secondary)
+                    }
                 }
             }
         }
+        .navigationTitle("Asset Details")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink(destination: AssetEditView(device: device)) {
@@ -93,12 +99,16 @@ struct AssetDetailView: View {
             }
         }
     }
+    
+
 }
 
 struct AssetDetailView_Previews: PreviewProvider {
-
+    static let dataController = DataController()
+    
     static var previews: some View {
         AssetDetailView(device: .example)
+            .environmentObject(dataController)
     }
     
 }

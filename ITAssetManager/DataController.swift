@@ -10,7 +10,6 @@ import SwiftUI
 
 class DataController: ObservableObject {
     // loads and manages core data instances, synronises to iCloud.
-    
     let container: NSPersistentCloudKitContainer
     
     init(inMemory: Bool = false) {
@@ -35,33 +34,31 @@ class DataController: ObservableObject {
     }()
 
     
-    func createSampleData() throws
-    
-    
-    {
+    func createSampleData() throws {
         
         let viewContext = container.viewContext
         
-        for i in 1...5 {
+        for _ in 1...100 {
             let staff = Staff(context: viewContext)
             staff.id = UUID()
-            staff.firstName = "First Name \(i)"
-            staff.lastName = "Last Name \(i)"
+            staff.firstName = DummyData.firstNames.randomElement()
+            staff.lastName = DummyData.lastNames.randomElement()
             staff.department = Department.departments.randomElement()
             
-            for j in 1...10 {
+            for _ in 1...Int.random(in: 1...3) {
                 let device = Device(context: viewContext)
                 device.archived = Bool.random()
                 device.assetTag = "UG\(Int.random(in: 10000...99999))"
-                device.mac = "MAC \(j)"
-                device.manufacturer = "Manufacturer \(j)"
-                device.model = "Model \(j)"
-                device.notes = "Notes \(j)"
-                device.purchaseDate = Date.now
-                device.serialNumber = "Serial Number \(j)"
-                device.type = Department.departments.randomElement()
-                device.warrantyStart = Date.now
-                device.warrantyEnd = Date.now
+                device.mac = DummyData.macAddresses.randomElement()
+                device.manufacturer = DummyData.manufacturers.randomElement()
+                device.model = DummyData.models.randomElement()
+                device.notes = DummyData.notes.randomElement()
+                device.serialNumber = DummyData.serialNumber.randomElement()
+                device.purchaseDate = Date()
+                device.type = DeviceType.types.randomElement()
+                device.hasWarranty = Bool.random()
+                device.warrantyStart = Date()
+                device.warrantyEnd = Date()
                 device.staff = staff
             }
         }

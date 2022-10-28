@@ -28,13 +28,14 @@ extension Staff {
     
     static var example: Staff {
         let controller = DataController(inMemory: true)
+        
         let viewContext = controller.container.viewContext
         
         let staff = Staff(context: viewContext)
         staff.id = UUID()
-        staff.firstName = "Example First Name"
-        staff.lastName = "Example Last Name"
-        staff.department = "Example Department"
+        staff.firstName = DummyData.firstNames.randomElement()
+        staff.lastName = DummyData.lastNames.randomElement()
+        staff.department = Department.departments.randomElement()
         
         return staff
     }

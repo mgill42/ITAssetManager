@@ -11,13 +11,22 @@ struct ContentView: View {
     // remember opened tab when closed
     @SceneStorage("selectedView") var selectedView: String?
     
+    
     var body: some View {
         TabView(selection: $selectedView) {
+            
             AssetsView(showArchived: false)
                 .tag(AssetsView.assetsTag)
                 .tabItem {
                     Image(systemName: "desktopcomputer")
                     Text("Assets")
+                }
+            
+            AssetsView(showArchived: true)
+                .tag(AssetsView.archivedTag)
+                .tabItem {
+                    Image(systemName: "archivebox.fill")
+                    Text("Archived")
                 }
             
             StaffView()
@@ -27,12 +36,7 @@ struct ContentView: View {
                     Text("Users")
                 }
             
-            AssetsView(showArchived: true)
-                .tag(AssetsView.archivedTag)
-                .tabItem {
-                    Image(systemName: "archivebox.fill")
-                    Text("Archived")
-                }
+            
             
             
         }

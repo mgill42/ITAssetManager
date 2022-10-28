@@ -23,8 +23,8 @@ struct StaffView: View {
         NavigationView {
             List {
                 ForEach(staff.wrappedValue) { staff in
-                    NavigationLink(destination: StaffEditView(staff: staff)) {
-                        Text(staff.staffFirstName)
+                    NavigationLink(destination: StaffDetailView(staff: staff)) {
+                        Text("\(staff.staffFirstName) \(staff.staffLastName)")
                     }
                 }
             }
