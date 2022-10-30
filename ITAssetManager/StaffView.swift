@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct StaffView: View {
+    @State private var searchText = ""
+    
     static let tag: String? = "Staff"
     let staff: FetchRequest<Staff>
-    
     @EnvironmentObject var dataController: DataController
     
     init() {
@@ -22,12 +23,15 @@ struct StaffView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(staff.wrappedValue) { staff in
+                ForEach(searchResults) { staff in
                     NavigationLink(destination: StaffDetailView(staff: staff)) {
                         Text("\(staff.staffFirstName) \(staff.staffLastName)")
                     }
                 }
             }
+            .searchable(text: $searchText)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled(true)
             .navigationTitle("Staff")
             .toolbar {
                 Button("Add Data") {
@@ -38,11 +42,23 @@ struct StaffView: View {
         }
         
     }
+    
+    var searchResults: [Staff] {
+        if searchText.isEmpty {
+            return Array(staff.wrappedValue)
+        } else {
+            return Array(staff.wrappedValue).filter {"\($0.staffFirstName) \($0.staffLastName)".localizedCaseInsensitiveContains(searchText)}
+        }
+    }
 }
 
 struct StaffView_Previews: PreviewProvider {
     static var previews: some View {
+        let dataController = DataController.preview
+        
         StaffView()
+            .environment(\.managedObjectContext, dataController.container.viewContext)
+            .environmentObject(dataController)
     }
 }
 

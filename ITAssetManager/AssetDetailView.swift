@@ -10,7 +10,16 @@ import SwiftUI
 struct AssetDetailView: View {
     let device: Device
     let dateFormatter = DateFormatter()
+    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var dataController: DataController
+    @State private var archived: Bool
     
+    @State private var showDeleteAlert = false
+    
+    init(device: Device) {
+        self.device = device
+        _archived = State(wrappedValue: device.archived)
+    }
     
     var body: some View {
     
@@ -66,6 +75,7 @@ struct AssetDetailView: View {
                 }
             }
             
+            
             if device.deviceNotes.isEmpty == false {
                 Section("Notes") {
                     Text(device.deviceNotes)
@@ -89,7 +99,29 @@ struct AssetDetailView: View {
                     }
                 }
             }
+
+            
+            Section {
+                if archived == false {
+                    Button("Archive") {
+                        archived = true
+                        dismiss()
+                    }
+                } else {
+                    Button("Unarchive") {
+                        archived = false
+                        dismiss()
+                    }
+                }
+            }
+            
+            Section {
+                Button("Delete", role: .destructive) {
+                    showDeleteAlert = true
+                }
+            }
         }
+        .onChange(of: archived) { _ in update()}
         .navigationTitle("Asset Details")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -98,8 +130,17 @@ struct AssetDetailView: View {
                 }
             }
         }
+        .alert("Delete Asset", isPresented: $showDeleteAlert) {
+            Button("Delete", role: .destructive) {
+                dataController.delete(device)
+                NavigationUtil.popToRootView()
+            }
+        }
     }
     
+    func update() {
+        device.archived = archived
+    }
 
 }
 

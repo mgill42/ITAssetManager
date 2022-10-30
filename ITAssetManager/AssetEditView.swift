@@ -67,7 +67,7 @@ struct AssetEditView: View {
                 TextField("Serial Number", text: $serialNumber)
                 DatePicker("Purchase Date", selection: $purchaseDate, displayedComponents: .date)
                 Picker("Type", selection: $type) {
-                    ForEach(DeviceType.types, id: \.self) { type in
+                    ForEach(Device.types, id: \.self) { type in
                         Text(type)
                     }
                 }
@@ -103,28 +103,6 @@ struct AssetEditView: View {
         .onChange(of: notes) { _ in update()}
         .onChange(of: warrantyStart) { _ in update()}
         .onChange(of: warrantyEnd) { _ in update()}
-        .alert("Remove Asset", isPresented: $showDeleteAlert) {
-            if archived == false {
-                Button("Archive") {
-                    archived = true
-                    NavigationUtil.popToRootView()
-                }
-            }
-            
-            Button("Delete", role: .destructive) {
-                dataController.delete(device)
-                NavigationUtil.popToRootView()
-            }
-        }
-        .toolbar {
-            ToolbarItem {
-                Button {
-                    showDeleteAlert = true
-                } label: {
-                    Image(systemName: "trash")
-                }
-            }
-        }
     }
     
     func update() {

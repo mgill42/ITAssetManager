@@ -33,9 +33,9 @@ extension Staff {
         
         let staff = Staff(context: viewContext)
         staff.id = UUID()
-        staff.firstName = DummyData.firstNames.randomElement()
-        staff.lastName = DummyData.lastNames.randomElement()
-        staff.department = Department.departments.randomElement()
+        staff.firstName = "Example Staff First Name"
+        staff.lastName = "Example Staff Last Name"
+        staff.department = "Example Department"
         
         return staff
     }

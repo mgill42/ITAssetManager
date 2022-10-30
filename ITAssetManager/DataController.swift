@@ -28,7 +28,13 @@ class DataController: ObservableObject {
     
     static var preview: DataController = {
         let dataController = DataController(inMemory: true)
-        let viewContext = dataController.container.viewContext
+        
+        do {
+            try dataController.createSampleData()
+        } catch {
+            fatalError("Fatel error creating preview: \(error.localizedDescription)")
+        }
+ 
         
         return dataController
     }()
@@ -43,7 +49,7 @@ class DataController: ObservableObject {
             staff.id = UUID()
             staff.firstName = DummyData.firstNames.randomElement()
             staff.lastName = DummyData.lastNames.randomElement()
-            staff.department = Department.departments.randomElement()
+            staff.department = Device.departments.randomElement()
             
             for _ in 1...Int.random(in: 1...3) {
                 let device = Device(context: viewContext)
@@ -55,7 +61,7 @@ class DataController: ObservableObject {
                 device.notes = DummyData.notes.randomElement()
                 device.serialNumber = DummyData.serialNumber.randomElement()
                 device.purchaseDate = Date()
-                device.type = DeviceType.types.randomElement()
+                device.type = Device.types.randomElement()
                 device.hasWarranty = Bool.random()
                 device.warrantyStart = Date()
                 device.warrantyEnd = Date()

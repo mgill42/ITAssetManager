@@ -9,6 +9,10 @@ import SwiftUI
 
 struct StaffDetailView: View {
     let staff: Staff
+    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var dataController: DataController
+    
+    @State private var showDeleteAlert = false
     
     var body: some View {
         List {
@@ -46,8 +50,12 @@ struct StaffDetailView: View {
                     }
                 }
             }
-             
             
+            Section {
+                Button("Delete", role: .destructive) {
+                    showDeleteAlert = true
+                }
+            }
         }
         .navigationTitle("Staff Details")
         .toolbar {
@@ -57,6 +65,18 @@ struct StaffDetailView: View {
                 }
             }
         }
+        .alert("Delete Staff?", isPresented: $showDeleteAlert) {
+            Button("Delete", role: .destructive) {
+                delete()
+            }
+        } message: {
+            Text("Deleting staff will remove all associated assets")
+        }
+    }
+    
+    func delete() {
+        dataController.delete(staff)
+        dismiss()
     }
 }
 

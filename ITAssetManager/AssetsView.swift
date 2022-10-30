@@ -34,7 +34,9 @@ struct AssetsView: View {
                     }
                 }
             }
-            .searchable(text: $searchText).textInputAutocapitalization(.never)
+            .searchable(text: $searchText)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled(true)
             .navigationTitle(showArchived ? "Archived Assets" : "Assets")
         }
     }
@@ -50,6 +52,10 @@ struct AssetsView: View {
 
 struct AssetsView_Previews: PreviewProvider {
     static var previews: some View {
+        let dataController = DataController.preview
+        
         AssetsView(showArchived: false)
+            .environment(\.managedObjectContext, dataController.container.viewContext)
+            .environmentObject(dataController)
     }
 }

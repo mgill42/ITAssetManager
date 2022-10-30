@@ -33,7 +33,7 @@ struct StaffEditView: View {
                 TextField("First Name", text: $firstName)
                 TextField("Last Name", text: $lastName)
                 Picker("Department", selection: $department) {
-                    ForEach(Department.departments, id: \.self) { department in
+                    ForEach(Device.departments, id: \.self) { department in
                         Text(department)
                     }
                 }
@@ -52,13 +52,17 @@ struct StaffEditView: View {
         staff.lastName = lastName
         staff.department = department
     }
+    
+   
 }
 
 struct StaffEditView_Previews: PreviewProvider {
     static let dataController = DataController()
     
     static var previews: some View {
-        StaffEditView(staff: .example)
-            .environmentObject(dataController)
+        NavigationStack {
+            StaffEditView(staff: .example)
+                .environmentObject(dataController)
+        }
     }
 }
