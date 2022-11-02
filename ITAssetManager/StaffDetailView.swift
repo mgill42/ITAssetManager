@@ -8,11 +8,20 @@
 import SwiftUI
 
 struct StaffDetailView: View {
-    let staff: Staff
+    @ObservedObject var staff: Staff
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var dataController: DataController
+    @Environment(\.managedObjectContext) var moc
     
     @State private var showDeleteAlert = false
+    @State private var devices: [Device]
+    
+    init(staff: Staff) {
+        self.staff = staff
+        
+        _devices = State(wrappedValue: staff.staffDevices)
+   
+    }
     
     var body: some View {
         List {
@@ -32,19 +41,30 @@ struct StaffDetailView: View {
                 
             }
             
-            if staff.staffDevices.contains(where: { $0.archived == false }) {
+            
+            
                 Section("Devices") {
-                    ForEach(staff.staffDevices.filter {$0.archived == false}) { device in
-                        NavigationLink(destination: AssetDetailView(device: device)) {
+                    ForEach(devices.filter {$0.archived == false}) { device in
+                        NavigationLink(destination: AssetEditView(device: device)) {
                             Text(device.deviceAssetTag)
                         }
                     }
+                    Button("Add Asset") {
+                        withAnimation {
+                            let newAsset = Device(context: moc)
+                            newAsset.assetTag = "New Asset"
+                            newAsset.purchaseDate = Date()
+                            newAsset.archived = false
+                            devices.append(newAsset)
+                        }
+                    }
                 }
-            }
-            if staff.staffDevices.contains(where: { $0.archived == true }) {
+        
+            
+            if devices.contains(where: { $0.archived == true }) {
                 Section("Archived Devices") {
-                    ForEach(staff.staffDevices.filter {$0.archived == true}) { device in
-                        NavigationLink(destination: AssetDetailView(device: device)) {
+                    ForEach(devices.filter {$0.archived == true}) { device in
+                        NavigationLink(destination: AssetEditView(device: device)) {
                             Text(device.deviceAssetTag)
                         }
                     }
@@ -58,6 +78,8 @@ struct StaffDetailView: View {
             }
         }
         .navigationTitle("Staff Details")
+        .onChange(of: devices) { _ in update()}
+        .onDisappear(perform: dataController.save)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink(destination: StaffEditView(staff: staff)) {
@@ -70,11 +92,18 @@ struct StaffDetailView: View {
                 delete()
             }
         } message: {
-            Text("Deleting staff will remove all associated assets")
+            Text("Deleting user will archive all assigned assets")
         }
     }
     
+    func update() {
+        staff.devices = NSSet(array: devices)
+    }
+    
     func delete() {
+        for device in devices {
+            device.archived = true
+        }
         dataController.delete(staff)
         dismiss()
     }

@@ -38,6 +38,9 @@ struct StaffView: View {
                     dataController.deleteAll()
                     try? dataController.createSampleData()
                 }
+                Button("Clear Data") {
+                    dataController.deleteAll()
+                }
             }
         }
         

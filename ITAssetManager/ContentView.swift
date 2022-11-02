@@ -15,6 +15,13 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $selectedView) {
             
+            StaffView()
+                .tag(StaffView.tag)
+                .tabItem {
+                    Image(systemName: "person.fill")
+                    Text("Users")
+                }
+            
             AssetsView(showArchived: false)
                 .tag(AssetsView.assetsTag)
                 .tabItem {
@@ -29,12 +36,7 @@ struct ContentView: View {
                     Text("Archived")
                 }
             
-            StaffView()
-                .tag(StaffView.tag)
-                .tabItem {
-                    Image(systemName: "person.fill")
-                    Text("Users")
-                }
+            
             
             
             

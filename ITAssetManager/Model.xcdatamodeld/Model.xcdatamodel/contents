@@ -14,18 +14,13 @@
         <attribute name="warrantyEnd" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="warrantyStart" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="staff" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Staff" inverseName="devices" inverseEntity="Staff"/>
-        <uniquenessConstraints>
-            <uniquenessConstraint>
-                <constraint value="assetTag"/>
-            </uniquenessConstraint>
-        </uniquenessConstraints>
     </entity>
     <entity name="Staff" representedClassName="Staff" syncable="YES" codeGenerationType="class">
         <attribute name="department" optional="YES" attributeType="String"/>
         <attribute name="firstName" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="lastName" optional="YES" attributeType="String"/>
-        <relationship name="devices" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Device" inverseName="staff" inverseEntity="Device"/>
+        <relationship name="devices" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Device" inverseName="staff" inverseEntity="Device"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="id"/>

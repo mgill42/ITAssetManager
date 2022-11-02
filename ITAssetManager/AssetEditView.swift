@@ -30,8 +30,7 @@ struct AssetEditView: View {
     
     init(device: Device) {
         self.device = device
-        
-        _staff = State(wrappedValue: device.deviceStaff)
+        _staff = State(wrappedValue: device.staff)
         _archived = State(wrappedValue: device.archived)
         _assetTag = State(wrappedValue: device.deviceAssetTag)
         _mac = State(wrappedValue: device.deviceMac)
@@ -60,18 +59,20 @@ struct AssetEditView: View {
                     }
                 }
                 
-                TextField("Asset Tag", text: $assetTag)
-                TextField("MAC Address", text: $mac)
-                TextField("Manufacturer", text: $manufacturer)
-                TextField("Model", text: $model)
-                TextField("Serial Number", text: $serialNumber)
-                DatePicker("Purchase Date", selection: $purchaseDate, displayedComponents: .date)
-                Picker("Type", selection: $type) {
-                    ForEach(Device.types, id: \.self) { type in
-                        Text(type)
+                Section {
+                    TextField("Asset Tag", text: $assetTag)
+                    TextField("MAC Address", text: $mac)
+                    TextField("Manufacturer", text: $manufacturer)
+                    TextField("Model", text: $model)
+                    TextField("Serial Number", text: $serialNumber)
+                    DatePicker("Purchase Date", selection: $purchaseDate, displayedComponents: .date)
+                    Picker("Type", selection: $type) {
+                        ForEach(Device.types, id: \.self) { type in
+                            Text(type)
+                        }
                     }
+                    
                 }
-                
             }
             
             Section("Notes") {

@@ -13,9 +13,9 @@ extension Device {
     static let departments = ["DEP1", "DEP2", "DEP3", "DEP4"]
     
     
-    var deviceStaff: Staff {
-        staff ?? Staff.example
-    }
+//    var deviceStaff: Staff {
+//        staff ?? Staff()
+//    }
   
     var deviceAssetTag: String {
         assetTag ?? ""
@@ -59,7 +59,7 @@ extension Device {
     
     
     static var example: Device {
-        let controller = DataController(inMemory: true)
+        let controller = DataController(inMemory: false)
         let viewContext = controller.container.viewContext
         
         let device = Device(context: viewContext)

@@ -10,7 +10,7 @@ import SwiftUI
 struct AssetsView: View {
     @State private var searchText = ""
     
-    
+    @Environment(\.managedObjectContext) var moc
     static let archivedTag: String? = "Archived"
     static let assetsTag: String? = "Assets"
     

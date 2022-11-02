@@ -28,7 +28,7 @@ struct AssetDetailView: View {
                 HStack {
                     Text("Owner")
                     Spacer()
-                    Text("\(device.deviceStaff.staffFirstName) \(device.deviceStaff.staffLastName)")
+                    Text("\(device.staff?.staffFirstName ?? "No User") \(device.staff?.staffLastName ?? "")")
                         .foregroundColor(.secondary)
                 }
                 HStack {
@@ -133,7 +133,7 @@ struct AssetDetailView: View {
         .alert("Delete Asset", isPresented: $showDeleteAlert) {
             Button("Delete", role: .destructive) {
                 dataController.delete(device)
-                NavigationUtil.popToRootView()
+                dismiss()
             }
         }
     }
