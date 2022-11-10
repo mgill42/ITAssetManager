@@ -10,12 +10,6 @@ import SwiftUI
 extension Device {
     
     static let types = ["Laptop", "Desktop", "Monitor", "Headset", "Peripheral", "Other"]
-    static let departments = ["DEP1", "DEP2", "DEP3", "DEP4"]
-    
-    
-//    var deviceStaff: Staff {
-//        staff ?? Staff()
-//    }
   
     var deviceAssetTag: String {
         assetTag ?? ""

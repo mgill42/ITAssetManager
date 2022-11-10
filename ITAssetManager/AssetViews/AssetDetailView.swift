@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct AssetDetailView: View {
-    let device: Device
-    let dateFormatter = DateFormatter()
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var dataController: DataController
-    @State private var archived: Bool
-    
+
+    let device: Device
+    let dateFormatter = DateFormatter()
+
     @State private var showDeleteAlert = false
+    @State private var archived: Bool
     
     init(device: Device) {
         self.device = device
@@ -68,6 +69,12 @@ struct AssetDetailView: View {
                         .foregroundColor(.secondary)
                 }
                 HStack {
+                    Text("Room")
+                    Spacer()
+                    Text(device.staff?.room?.roomNumber ?? device.room?.roomNumber ?? "No Room")
+                        .foregroundColor(.secondary)
+                }
+                HStack {
                     Text("Purchase Date")
                     Spacer()
                     Text(device.devicePurchaseDate.formatted(date: .numeric, time: .omitted))
@@ -113,13 +120,12 @@ struct AssetDetailView: View {
                         dismiss()
                     }
                 }
-            }
-            
-            Section {
+                
                 Button("Delete", role: .destructive) {
                     showDeleteAlert = true
                 }
             }
+            
         }
         .onChange(of: archived) { _ in update()}
         .navigationTitle("Asset Details")

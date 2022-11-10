@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct AssetEditView: View {
-    let device: Device
-    let allStaff: FetchRequest<Staff>
     @EnvironmentObject var dataController: DataController
     
-    @State private var showDeleteAlert = false
+    let device: Device
+    let allStaff: FetchRequest<Staff>
+    let allRooms: FetchRequest<Rooms>
     
+    @State private var showDeleteAlert = false
+    @State private var isHotdesk: Bool
     @State private var staff: Staff?
+    @State private var room: Rooms?
     @State private var archived: Bool
     @State private var assetTag: String
     @State private var mac: String
@@ -31,6 +34,7 @@ struct AssetEditView: View {
     init(device: Device) {
         self.device = device
         _staff = State(wrappedValue: device.staff)
+        _room = State(wrappedValue: device.room)
         _archived = State(wrappedValue: device.archived)
         _assetTag = State(wrappedValue: device.deviceAssetTag)
         _mac = State(wrappedValue: device.deviceMac)
@@ -48,14 +52,33 @@ struct AssetEditView: View {
             NSSortDescriptor(keyPath: \Staff.firstName, ascending: true)
         ])
         
+        allRooms = FetchRequest<Rooms>(entity: Rooms.entity(), sortDescriptors: [
+            NSSortDescriptor(keyPath: \Rooms.roomNumber, ascending: true)
+        ])
+        
+        _isHotdesk = State(wrappedValue: device.staff == nil ? true : false)
+        
     }
     
     var body: some View {
         Form {
+            
+            Section {
+                Toggle("Hotdesk", isOn: $isHotdesk)
+            }
+            
             Section("Device Details") {
-                Picker("Staff", selection: $staff) {
-                    ForEach(allStaff.wrappedValue) { staff in
-                        Text("\(staff.staffFirstName) \(staff.staffLastName)").tag(staff as Staff?)
+                if isHotdesk == false {
+                    Picker("Staff", selection: $staff) {
+                        ForEach(allStaff.wrappedValue) { staff in
+                            Text("\(staff.staffFirstName) \(staff.staffLastName)").tag(staff as Staff?)
+                        }
+                    }
+                } else {
+                    Picker("Room", selection: $room) {
+                        ForEach(allRooms.wrappedValue) { room in
+                            Text("\(room.roomroomNumber)").tag(room as Rooms?)
+                        }
                     }
                 }
                 
@@ -67,7 +90,7 @@ struct AssetEditView: View {
                     TextField("Serial Number", text: $serialNumber)
                     DatePicker("Purchase Date", selection: $purchaseDate, displayedComponents: .date)
                     Picker("Type", selection: $type) {
-                        ForEach(Device.types, id: \.self) { type in
+                        ForEach(dataController.categories, id: \.self) { type in
                             Text(type)
                         }
                     }
@@ -75,10 +98,11 @@ struct AssetEditView: View {
                 }
             }
             
+            
             Section("Notes") {
                 TextField("Write a note", text: $notes, axis: .vertical)
             }
-            
+        
             Section("Warranty") {
     
                     Toggle("Add Warranty", isOn: $hasWarranty)
@@ -90,14 +114,17 @@ struct AssetEditView: View {
             }
         }
         .animation(.default, value: hasWarranty)
+        .animation(.default, value: isHotdesk)
         .navigationTitle("Edit Asset")
         .onDisappear(perform: dataController.save)
         .onChange(of: staff) { _ in update()}
+        .onChange(of: room) { _ in update()}
         .onChange(of: assetTag) { _ in update()}
         .onChange(of: mac) { _ in update()}
         .onChange(of: manufacturer) { _ in update()}
         .onChange(of: archived) { _ in update()}
         .onChange(of: model) { _ in update()}
+        .onChange(of: hasWarranty) { _ in update()}
         .onChange(of: serialNumber) { _ in update()}
         .onChange(of: type) { _ in update()}
         .onChange(of: purchaseDate) { _ in update()}
@@ -107,12 +134,15 @@ struct AssetEditView: View {
     }
     
     func update() {
+        
         device.staff = staff
+        device.room = room
         device.archived = archived
         device.assetTag = assetTag
         device.mac = mac
         device.manufacturer = manufacturer
         device.model = model
+        device.hasWarranty = hasWarranty
         device.type = type
         device.notes = notes
         device.purchaseDate = purchaseDate

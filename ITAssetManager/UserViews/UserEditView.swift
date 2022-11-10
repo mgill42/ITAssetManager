@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct StaffEditView: View {
+struct UserEditView: View {
     let staff: Staff
     
     @EnvironmentObject var dataController: DataController
@@ -33,7 +33,7 @@ struct StaffEditView: View {
                 TextField("First Name", text: $firstName)
                 TextField("Last Name", text: $lastName)
                 Picker("Department", selection: $department) {
-                    ForEach(Device.departments, id: \.self) { department in
+                    ForEach(Staff.departments, id: \.self) { department in
                         Text(department)
                     }
                 }
@@ -48,6 +48,7 @@ struct StaffEditView: View {
     }
     
     func update() {
+        print("updated")
         staff.firstName = firstName
         staff.lastName = lastName
         staff.department = department
@@ -58,10 +59,10 @@ struct StaffEditView: View {
 
 struct StaffEditView_Previews: PreviewProvider {
     static let dataController = DataController()
-    
+
     static var previews: some View {
         NavigationStack {
-            StaffEditView(staff: .example)
+            UserEditView(staff: .example)
                 .environmentObject(dataController)
         }
     }

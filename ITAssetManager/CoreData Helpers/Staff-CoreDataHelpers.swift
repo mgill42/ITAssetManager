@@ -8,6 +8,9 @@
 import SwiftUI
 
 extension Staff {
+    static let departments = ["DEP1", "DEP2", "DEP3", "DEP4"]
+
+    
     var staffFirstName: String {
         firstName ?? ""
     }
@@ -39,8 +42,4 @@ extension Staff {
         
         return staff
     }
-    
-   
-    
-    
 }

@@ -15,24 +15,32 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $selectedView) {
             
-            StaffView()
-                .tag(StaffView.tag)
+            UsersView()
+                .tag(UsersView.tag)
                 .tabItem {
-                    Image(systemName: "person.fill")
+                    Image(systemName: "person")
                     Text("Users")
                 }
+            
+            RoomsView()
+                .tag(RoomsView.tag)
+                .tabItem {
+                    Image(systemName: "house")
+                    Text("Rooms")
+                }
+            
             
             AssetsView(showArchived: false)
                 .tag(AssetsView.assetsTag)
                 .tabItem {
-                    Image(systemName: "desktopcomputer")
+                    Image(systemName: "laptopcomputer.and.iphone")
                     Text("Assets")
                 }
             
             AssetsView(showArchived: true)
                 .tag(AssetsView.archivedTag)
                 .tabItem {
-                    Image(systemName: "archivebox.fill")
+                    Image(systemName: "archivebox")
                     Text("Archived")
                 }
             
